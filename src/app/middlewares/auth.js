@@ -17,8 +17,6 @@ export default (request, response, next) => {
       }
       request.userId = decoded.id
 
-      console.log(decoded)
-
       return next()
     })
   } catch (err) {
