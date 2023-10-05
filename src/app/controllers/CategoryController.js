@@ -33,9 +33,9 @@ class CategoryController {
   }
 
   async index(request, response) {
-    const { category } = await Category.findAll()
+    const categories = await Category.findAll()
 
-    return response.json(category)
+    return response.json(categories)
   }
 }
 
