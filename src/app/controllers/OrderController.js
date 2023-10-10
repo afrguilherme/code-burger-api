@@ -1,5 +1,6 @@
 import * as Yup from "yup"
 import Product from "../models/Product"
+import Category from "../models/Category"
 
 class OrderController {
   async store(request, response) {
@@ -14,8 +15,6 @@ class OrderController {
         ),
     })
 
-    console.log(request)
-
     try {
       await schema.validateSync(request.body, { abortEarly: false })
     } catch (err) {
@@ -28,6 +27,28 @@ class OrderController {
       where: {
         id: productsId,
       },
+      include: [
+        {
+          model: Category,
+          as: "category",
+          attributes: ["name"],
+        },
+      ],
+    })
+
+    const editedProduct = updatedProducts.map((product) => {
+      const productIndex = request.body.products.findIndex(
+        (requestProduct) => requestProduct.id === product.id,
+      )
+
+      const newProduct = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        category: product.category.name,
+        url: product.url,
+      }
+      return newProduct
     })
 
     const order = {
@@ -37,7 +58,7 @@ class OrderController {
       },
     }
 
-    return response.status(201).json(updatedProducts)
+    return response.status(201).json(editedProduct)
   }
 }
 
