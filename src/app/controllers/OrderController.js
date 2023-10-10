@@ -47,6 +47,7 @@ class OrderController {
         price: product.price,
         category: product.category.name,
         url: product.url,
+        quantity: request.body.products[productIndex].quantity,
       }
       return newProduct
     })
@@ -56,6 +57,7 @@ class OrderController {
         id: request.userId,
         name: request.userName,
       },
+      products: editedProduct,
     }
 
     return response.status(201).json(editedProduct)
