@@ -21,6 +21,7 @@ export default (request, response, next) => {
       return next()
     })
   } catch (err) {
+    console.log("Chegou aqui")
     return response.status(401).json({ error: "Invalid token!" })
   }
 }
